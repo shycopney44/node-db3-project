@@ -53,14 +53,15 @@ router.get('/', (req, res, next) => {
   }
 */
 router.get('/:scheme_id', checkSchemeId, (req, res, next) => {
-  const { scheme_id } = req.params
+  const { scheme_id } = req.params;
 
   Schemes.findById(scheme_id)
     .then(scheme => {
-      res.json(scheme)
+      res.json(scheme); // Respond with the scheme object
     })
-    .catch(next)
-})
+    .catch(next);
+});
+
 
 /*
   [GET] /api/schemes/2/steps
@@ -130,15 +131,16 @@ router.post('/', validateScheme, (req, res, next) => {
   ]
 */
 router.post('/:scheme_id/steps', checkSchemeId, validateStep, (req, res, next) => {
-  const step = req.body
-  const { scheme_id } = req.params
+  const step = req.body;
+  const { scheme_id } = req.params;
 
-  Schemes.addStep(scheme_id, step)
+  Schemes.addStep(step, scheme_id)
     .then(allSteps => {
-      res.status(201).json(allSteps)
+      res.status(201).json(allSteps); // Respond with the full list of steps
     })
-    .catch(next)
-})
+    .catch(next);
+});
+
 
 router.use((err, req, res, next) => { // eslint-disable-line
   res.status(err.status || 500).json({
